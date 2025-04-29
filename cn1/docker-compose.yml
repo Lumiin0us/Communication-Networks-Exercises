@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  coap_server:
+    image: dht_coap_server:1.0
+    container_name: coap_server
+    ports:
+      - "5683:5683"  
+    networks:
+      - coap_network
+    restart: always
+
+  coap_client:
+    image: dht_coap_client:1.0
+    container_name: coap_client
+    ports:
+      - "61616:61616"  
+    depends_on:
+      - coap_server
+    networks:
+      - coap_network
+    restart: on-failure
+
+networks:
+  coap_network:
+    driver: bridge
